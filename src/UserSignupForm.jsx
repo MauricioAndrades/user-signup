@@ -37,22 +37,9 @@ export default function UserSignupForm() {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Load data from local storage on component mount
-  useEffect(() => {
-    console.log("Loading data from local storage...");
-    const savedData = localStorage.getItem("signupFormData");
-    if (savedData) {
-      const { username, password, confirmPassword } = JSON.parse(savedData);
-      setUsername(username || "");
-      setPassword(password || "");
-      setConfirmPassword(confirmPassword || "");
-    }
-  }, []);
-
   // Update local storage whenever the username, password, or confirmPassword changes
   useEffect(() => {
     if (!isSubmitted) {
-      const savedData = localStorage.getItem("signupFormData");
       const formData = { username, password, confirmPassword };
       localStorage.setItem("signupFormData", JSON.stringify(formData));
     }
@@ -68,8 +55,7 @@ export default function UserSignupForm() {
     const errors = {};
     if (!username) errors.username = "Username is required";
     if (!password) errors.password = "Password is required";
-    if (password !== confirmPassword)
-      errors.confirmPassword = "Passwords do not match";
+    if (password !== confirmPassword) errors.confirmPassword = "Passwords do not match";
     return errors;
   };
 
